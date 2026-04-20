@@ -100,7 +100,7 @@ patch(ListRenderer.prototype, {
             if (record.isDirty) {
                 await this.props.list.model.root.save({ stayInEdition: true });
             }
-            let copyData = await this.orm.call(
+            let copyData = await this.env.services.orm.call(
                 record.resModel,
                 'copy_data',
                 [record.resId],
