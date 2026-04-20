@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Add empty header for copy column -->
+    <t t-name="sm_duplicate_lines.ListRenderer" t-inherit="web.ListRenderer" t-inherit-mode="extension">
+        <xpath expr="//thead/tr" position="inside">
+            <th t-if="showCopyButton" class="o_list_record_copy_header w-print-0 p-print-0"/>
+        </xpath>
+    </t>
+
+    <!-- Add copy button cell in each row -->
+    <t t-name="sm_duplicate_lines.ListRenderer.RecordRow" t-inherit="web.ListRenderer.RecordRow" t-inherit-mode="extension">
+        <xpath expr="//tr[hasclass('o_data_row')]" position="inside">
+            <td t-if="showCopyButton"
+                class="o_list_record_copy w-print-0 p-print-0 text-center"
+                t-on-click.stop="() => this.onCopyRecord(record)"
+                tabindex="-1">
+                <button class="btn fa fa-copy o_list_copy_btn d-print-none"
+                    name="duplicate"
+                    title="Duplicate row"
+                    aria-label="Duplicate row"
+                    tabindex="-1"/>
+            </td>
+        </xpath>
+    </t>
+
+</templates>
