@@ -7,7 +7,7 @@ import { registry } from '@web/core/registry';
 // Support options-based: options="{'disable_lines_duplicate': True}"
 patch(X2ManyField.prototype, {
     get rendererProps() {
-        const props = super.rendererProps;
+        const props = this._super();
         if (this.props.crudOptions?.disable_lines_duplicate || this.props.disableLinesDuplicate) {
             props.disableLinesDuplicate = true;
         }

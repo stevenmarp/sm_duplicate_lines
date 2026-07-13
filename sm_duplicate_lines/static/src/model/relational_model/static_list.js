@@ -7,7 +7,7 @@ const DUPLICATE_CTX_KEY = 'duplicate_one2many_record';
 
 patch(StaticList.prototype, {
     async addNew(params) {
-        const record = await super.addNew(params);
+        const record = await this._super(params);
         if (params?.context?.[DUPLICATE_CTX_KEY]) {
             await record.update({});
             delete params.context[DUPLICATE_CTX_KEY];

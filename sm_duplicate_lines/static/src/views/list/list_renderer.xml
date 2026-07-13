@@ -10,7 +10,7 @@
 
     <!-- Add copy button cell in each row -->
     <t t-name="sm_duplicate_lines.ListRenderer.RecordRow" t-inherit="web.ListRenderer.RecordRow" t-inherit-mode="extension">
-        <xpath expr="//tr[hasclass('o_data_row')]" position="inside">
+        <xpath expr="//tr" position="inside">
             <td t-if="showCopyButton"
                 class="o_list_record_copy w-print-0 p-print-0 text-center"
                 t-on-click.stop="() => this.onCopyRecord(record)"

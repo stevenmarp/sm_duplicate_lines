@@ -14,6 +14,12 @@ const ALLOWED_LINE_MODELS = [
 
 patch(ListRenderer.prototype, {
     get showCopyButton() {
+        console.log("showCopyButton check 16:", {
+            isX2Many: this.isX2Many,
+            canCreate: this.canCreate,
+            disableLinesDuplicate: this.props.disableLinesDuplicate,
+            resModel: this.props.list?.resModel,
+        });
         if (!this.isX2Many || !this.canCreate || this.props.disableLinesDuplicate) {
             return false;
         }
