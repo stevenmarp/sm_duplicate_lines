@@ -11,7 +11,13 @@ ListRenderer.include({
     }),
 
     _shouldRenderDuplicateButton: function () {
-        if (!this.editable || !this.activeActions.create) {
+        var editable = this.editable;
+        if (!editable) {
+            return false;
+        }
+        var activeActions = this.activeActions || (this.getParent() && this.getParent().activeActions) || {};
+        var canCreate = activeActions.create !== undefined ? activeActions.create : true;
+        if (!canCreate) {
             return false;
         }
         if (this.arch.attrs.disable_lines_duplicate === "1" || (this.arch.attrs.options && this.arch.attrs.options.disable_lines_duplicate)) {
@@ -93,27 +99,7 @@ FieldX2Many.include({
             'duplicate_one2many_record': 1,
         };
 
-        if (record.res_id) {
-            this._rpc({
-                model: record.model,
-                method: 'copy_data',
-                args: [record.res_id],
-                context: context,
-            }).then(function (copyData) {
-                if (copyData && copyData[0]) {
-                    var values = copyData[0];
-                    _.each(values, function (val, key) {
-                        newCopyData['default_' + key] = val;
-                    });
-                    var contextToPass = _.extend({}, context, newCopyData);
-                    self._setValue({
-                        operation: 'CREATE',
-                        position: self.editable || 'bottom',
-                        context: [contextToPass],
-                    });
-                }
-            });
-        } else {
+        var performClientCopy = function () {
             var values = {};
             _.each(record.fields, function (fieldInfo, fieldName) {
                 if (!fieldInfo.copy) return;
@@ -142,11 +128,39 @@ FieldX2Many.include({
                 }
             });
             var contextToPass = _.extend({}, context, newCopyData, values);
-            this._setValue({
+            self._setValue({
                 operation: 'CREATE',
-                position: this.editable || 'bottom',
+                position: self.editable || 'bottom',
                 context: [contextToPass],
             });
+        };
+
+        if (record.res_id && typeof record.res_id === 'number') {
+            this._rpc({
+                model: record.model,
+                method: 'copy_data',
+                args: [record.res_id],
+                context: context,
+            }).then(function (copyData) {
+                if (copyData && copyData[0]) {
+                    var values = copyData[0];
+                    _.each(values, function (val, key) {
+                        newCopyData['default_' + key] = val;
+                    });
+                    var contextToPass = _.extend({}, context, newCopyData);
+                    self._setValue({
+                        operation: 'CREATE',
+                        position: self.editable || 'bottom',
+                        context: [contextToPass],
+                    });
+                } else {
+                    performClientCopy();
+                }
+            }).catch(function () {
+                performClientCopy();
+            });
+        } else {
+            performClientCopy();
         }
     },
 });
