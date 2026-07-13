@@ -11,7 +11,7 @@ class Base(models.AbstractModel):
             attributes.append('copy')
         return attributes
 
-    def _apply_onchange_methods(self, field_name, result):
+    def _onchange_eval(self, field_name, onchange, result):
         if self.env.context.get('duplicate_one2many_record'):
-            return None
-        return super()._apply_onchange_methods(field_name, result)
+            return
+        return super()._onchange_eval(field_name, onchange, result)
