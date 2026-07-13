@@ -1,6 +1,6 @@
 {
     'name': 'Duplicate Lines | One Click Row Copy | Sale Orders | Purchase Orders | Invoices',
-    'version': '15.0.1.0.0',
+    'version': '14.0.1.0.0',
     'category': 'Extra Tools',
     'summary': 'Duplicate order lines in Sale Orders, Purchase Orders & Invoices with a single click',
     'description': """
@@ -21,13 +21,9 @@ allowing users to duplicate lines with a single click.
     """,
     'author': 'Steven Marp',
     'depends': ['web'],
-    'data': [],
-    'assets': {
-        'web.assets_backend': [
-            'sm_duplicate_lines/static/src/js/duplicate_lines.js',
-            'sm_duplicate_lines/static/src/css/duplicate_lines.css',
-        ],
-    },
+    'data': [
+        'views/duplicate_lines_templates.xml',
+    ],
     'images': ['static/description/banner.gif'],
     'installable': True,
     'auto_install': False,
