@@ -12,7 +12,7 @@ const ALLOWED_LINE_MODELS = [
     'account.move.line',
 ];
 
-patch(ListRenderer.prototype, {
+patch(ListRenderer.prototype, 'sm_duplicate_lines.ListRenderer', {
     get showCopyButton() {
         console.log("showCopyButton check 16:", {
             isX2Many: this.isX2Many,
@@ -102,7 +102,7 @@ patch(ListRenderer.prototype, {
             [DUPLICATE_CONTEXT_KEY]: 1,
         };
 
-        if (record.resId) {
+        if (record.resId && !record.isVirtual) {
             if (record.isDirty) {
                 await this.props.list.model.root.save({ stayInEdition: true });
             }
@@ -112,11 +112,12 @@ patch(ListRenderer.prototype, {
                 [record.resId],
                 { context }
             );
-            if (copyData) {
-                copyData = copyData[0];
-            }
-            for (const [fieldName, fieldValue] of Object.entries(copyData)) {
-                newCopyData[`default_${fieldName}`] = fieldValue;
+            if (copyData && copyData[0]) {
+                for (const [fieldName, fieldValue] of Object.entries(copyData[0])) {
+                    newCopyData[`default_${fieldName}`] = fieldValue;
+                }
+            } else {
+                Object.assign(newCopyData, this._buildCopyValues(record));
             }
         } else {
             Object.assign(newCopyData, this._buildCopyValues(record));

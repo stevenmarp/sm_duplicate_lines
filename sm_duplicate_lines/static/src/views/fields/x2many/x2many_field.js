@@ -5,7 +5,7 @@ import { X2ManyField } from '@web/views/fields/x2many/x2many_field';
 import { registry } from '@web/core/registry';
 
 // Support options-based: options="{'disable_lines_duplicate': True}"
-patch(X2ManyField.prototype, {
+patch(X2ManyField.prototype, 'sm_duplicate_lines.X2ManyField', {
     get rendererProps() {
         const props = this._super();
         if (this.props.crudOptions?.disable_lines_duplicate || this.props.disableLinesDuplicate) {

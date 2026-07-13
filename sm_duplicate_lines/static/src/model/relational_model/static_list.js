@@ -5,7 +5,7 @@ import { StaticList } from '@web/views/relational_model';
 
 const DUPLICATE_CTX_KEY = 'duplicate_one2many_record';
 
-patch(StaticList.prototype, {
+patch(StaticList.prototype, 'sm_duplicate_lines.StaticList', {
     async addNew(params) {
         const record = await this._super(params);
         if (params?.context?.[DUPLICATE_CTX_KEY]) {
