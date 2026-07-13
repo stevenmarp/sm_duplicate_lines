@@ -1,0 +1,23 @@
+.o_list_record_copy_header {
+    width: 32px !important;
+}
+.o_list_record_copy_td {
+    width: 32px !important;
+    text-align: center;
+}
+.o_list_record_copy {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #714B67;
+    padding: 0;
+}
+.o_list_record_copy:hover {
+    color: #00A09D;
+}
+@media print {
+    .o_list_record_copy_header,
+    .o_list_record_copy_td {
+        display: none !important;
+    }
+}
