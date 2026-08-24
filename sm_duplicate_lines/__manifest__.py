@@ -1,6 +1,6 @@
 {
     'name': 'Duplicate Lines | One Click Row Copy | Sale Orders | Purchase Orders | Invoices',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Extra Tools',
     'summary': 'Duplicate order lines in Sale Orders, Purchase Orders & Invoices with a single click',
     'description': """
