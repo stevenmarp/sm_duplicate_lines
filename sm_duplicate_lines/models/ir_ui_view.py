@@ -1,3 +1,5 @@
+import inspect
+
 from odoo import api, models
 
 
@@ -14,4 +16,9 @@ class Base(models.AbstractModel):
     def _apply_onchange_methods(self, field_name, result, *args, **kwargs):
         if self.env.context.get('duplicate_one2many_record'):
             return None
-        return super()._apply_onchange_methods(field_name, result, *args, **kwargs)
+        method = super()._apply_onchange_methods
+        try:
+            inspect.signature(method).bind(field_name, result, *args, **kwargs)
+        except TypeError:
+            return method(field_name, result)
+        return method(field_name, result, *args, **kwargs)
